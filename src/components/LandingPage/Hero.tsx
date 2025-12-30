@@ -22,19 +22,21 @@ export default function Hero() {
               by artificial intelligence. Vote from anywhere, anytime with
               complete confidence.
             </p>
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/register"
-                className="px-8 py-4 bg-white text-indigo-600 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all">
+                className="px-4 py-2 sm:px-8 sm:py-4 bg-white text-indigo-600 rounded-full font-bold text-sm sm:text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all"
+              >
                 Get Started
               </Link>
               <Link
                 href="/learn"
-                className="px-8 py-4 bg-white/20 backdrop-blur-sm text-white rounded-full font-bold text-lg border-2 border-white hover:bg-white hover:text-indigo-600 transition-all">
+                className="px-4 py-2 sm:px-8 sm:py-4 bg-white/20 backdrop-blur-sm text-white rounded-full font-bold text-sm sm:text-lg border-2 border-white hover:bg-white hover:text-indigo-600 transition-all"
+              >
                 Learn More
               </Link>
-
             </div>
+
 
           </div>
 
