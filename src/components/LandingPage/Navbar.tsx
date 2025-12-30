@@ -33,6 +33,12 @@ export default function Navbar() {
 
   const handleNav = (id: string) => {
     const sectionId = id.toLowerCase().replace(/\s+/g, "-");
+    if (id === "About") {
+    // If About is clicked, always go to /about page
+    router.push("/about");
+    setIsMenuOpen(false);
+    return;
+  }
     if (pathname === "/") {
       scrollToSection(sectionId);
     } else {
@@ -56,13 +62,15 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <div className="flex items-center space-x-3">
-            <div className="w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg transform hover:rotate-6 transition-transform duration-300">
-              <img
-                src="/images/elec-logo.png"   // path to your image (usually in /public)
-                alt="Logo"
-                className="w-14 h-14 object-contain"
-              />
-            </div>
+            <Link href="/">
+              <div className="w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg transform hover:rotate-6 transition-transform duration-300 cursor-pointer">
+                <img
+                  src="/images/elec-logo.png" // path to your image (usually in /public)
+                  alt="Logo"
+                  className="w-14 h-14 object-contain"
+                />
+              </div>
+            </Link>
 
             <span
               className={`text-2xl font-black tracking-tight ${scrolled ? "text-gray-900" : "text-white"

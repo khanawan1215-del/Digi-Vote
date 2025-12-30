@@ -61,7 +61,7 @@ export default function Footer() {
       links: [
         { label: "Help Center", type: "section" },
         { label: "FAQs", type: "section" },
-        { label: "Contact Us", type: "section" },
+        { label: "Contact Us", type: "page", href: "/contact" },
         { label: "Privacy Policy", type: "page", href: "/privacy-policy" },
       ],
     },

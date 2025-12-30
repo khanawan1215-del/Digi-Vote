@@ -9,13 +9,15 @@ import { Button } from '@/components/ui/Button';
 import { Alert } from '@/components/ui/Alert';
 import { authService } from '@/lib/api/auth.service';
 import { RegisterData } from '@/lib/types';
-import { FiMail, FiUser, FiLock, FiPhone, FiHash } from 'react-icons/fi';
+import { FiMail, FiUser, FiLock, FiPhone, FiHash, FiEye, FiEyeOff } from 'react-icons/fi';
 import { AxiosError } from "axios";
 
 export default function RegisterPage() {
   const router = useRouter();
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -25,8 +27,6 @@ export default function RegisterPage() {
   } = useForm<RegisterData>();
 
   const password = watch('password');
-
-
 
   const onSubmit = async (data: RegisterData) => {
     setError("");
@@ -68,8 +68,6 @@ export default function RegisterPage() {
     }
   };
 
-
-
   return (
     <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full mx-auto animate-fade-in-up">
       <div className="text-center mb-8">
@@ -83,8 +81,7 @@ export default function RegisterPage() {
         </Alert>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
+      <div className="space-y-4">
         {/* Email */}
         <Input
           label="University Email"
@@ -160,25 +157,43 @@ export default function RegisterPage() {
           )}
         </div>
 
-        {/* Password */}
-        <Input
-          label="Password"
-          type="password"
-          placeholder="••••••••"
-          leftIcon={<FiLock className="text-gray-400" />}
-          error={errors.password?.message}
-          {...register('password')}
-        />
+        {/* Password with Toggle */}
+        <div className="relative">
+          <Input
+            label="Password"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="••••••••"
+            leftIcon={<FiLock className="text-gray-400" />}
+            error={errors.password?.message}
+            {...register('password')}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-[38px] text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            {showPassword ? <FiEye className="w-5 h-5" /> : <FiEyeOff className="w-5 h-5" />}
+          </button>
+        </div>
 
-        {/* Confirm Password */}
-        <Input
-          label="Confirm Password"
-          type="password"
-          placeholder="••••••••"
-          leftIcon={<FiLock className="text-gray-400" />}
-          error={errors.password_confirm?.message}
-          {...register('password_confirm')}
-        />
+        {/* Confirm Password with Toggle */}
+        <div className="relative">
+          <Input
+            label="Confirm Password"
+            type={showConfirmPassword ? 'text' : 'password'}
+            placeholder="••••••••"
+            leftIcon={<FiLock className="text-gray-400" />}
+            error={errors.password_confirm?.message}
+            {...register('password_confirm')}
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className="absolute right-3 top-[38px] text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            {showConfirmPassword ? <FiEye className="w-5 h-5" /> : <FiEyeOff className="w-5 h-5" />}
+          </button>
+        </div>
 
         {/* Submit Button */}
         <Button
@@ -186,10 +201,11 @@ export default function RegisterPage() {
           className="w-full"
           size="lg"
           isLoading={isLoading}
+          onClick={handleSubmit(onSubmit)}
         >
           Create Account
         </Button>
-      </form>
+      </div>
 
       {/* Login Link */}
       <p className="text-center mt-6 text-gray-600 text-sm sm:text-base">
@@ -202,6 +218,5 @@ export default function RegisterPage() {
         </Link>
       </p>
     </div>
-
   );
 }

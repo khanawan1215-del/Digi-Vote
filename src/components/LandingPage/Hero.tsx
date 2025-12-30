@@ -22,20 +22,24 @@ export default function Hero() {
               by artificial intelligence. Vote from anywhere, anytime with
               complete confidence.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-row gap-4">
               <Link
                 href="/register"
                 className="px-8 py-4 bg-white text-indigo-600 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all">
                 Get Started
               </Link>
-              <button className="px-8 py-4 bg-white/20 backdrop-blur-sm text-white rounded-full font-bold text-lg border-2 border-white hover:bg-white hover:text-indigo-600 transition-all">
+              <Link
+                href="/learn"
+                className="px-8 py-4 bg-white/20 backdrop-blur-sm text-white rounded-full font-bold text-lg border-2 border-white hover:bg-white hover:text-indigo-600 transition-all">
                 Learn More
-              </button>
+              </Link>
+
             </div>
+
           </div>
 
           {/* Right*/}
-          <div className="relative animate-fade-in-up-delayed">
+          <div className="py-4 relative animate-fade-in-up-delayed">
             <div className="relative transform hover:rotate-0 rotate-2 transition-transform duration-500">
               <div className="relative aspect-[4/3] bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-lg rounded-3xl border-4 border-white/30 shadow-2xl overflow-hidden">
                 {/* Display the image filling the container */}
@@ -49,13 +53,13 @@ export default function Hero() {
               </div>
             </div>
 
-            <div className="absolute -top-4 -left-4 bg-white rounded-2xl p-4 shadow-xl animate-float">
+            <div className="hidden md:block absolute -top-4 -left-4 bg-white rounded-2xl p-4 shadow-xl animate-float">
               <div className="text-3xl mb-2">🔒</div>
               <div className="text-sm font-bold text-indigo-600">
                 100% Secure
               </div>
             </div>
-            <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl p-4 shadow-xl animate-float-delayed">
+            <div className="hidden md:block absolute -bottom-4 -right-4 bg-white rounded-2xl p-4 shadow-xl animate-float-delayed">
               <div className="text-3xl mb-2">⚡</div>
               <div className="text-sm font-bold text-indigo-600">
                 Real-Time Results
