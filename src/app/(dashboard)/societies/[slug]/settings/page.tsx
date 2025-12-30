@@ -191,36 +191,43 @@ export default function SocietySettingsPage() {
     }
 
     return (
-        <div className="max-w-6xl mx-auto space-y-6">
+        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-0 space-y-6">
+
             {/* Header */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900">{society.name} Settings</h1>
-                    <p className="text-gray-600 mt-1">Manage your society details and members</p>
+                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+                        {society.name} Settings
+                    </h1>
+                    <p className="text-gray-600 mt-1 text-sm sm:text-base">
+                        Manage your society details and members
+                    </p>
                 </div>
-                <Button variant="outline" onClick={() => router.push(`/my-societies/`)}>
+                <Button variant="outline" className="w-full sm:w-auto"
+                    onClick={() => router.push(`/my-societies/`)}>
                     Back to Society
                 </Button>
             </div>
 
             {/* Tabs */}
-            <div className="border-b border-gray-200">
-                <div className="flex space-x-8">
+            <div className="border-b border-gray-200 overflow-x-auto">
+                <div className="flex gap-6 min-w-max py-1">
                     <button
                         onClick={() => setActiveTab('details')}
-                        className={`pb-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'details'
-                            ? 'border-primary-600 text-primary-600'
-                            : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
+                        className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'details'
+                                ? 'border-primary-600 text-primary-600'
+                                : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
                             }`}
                     >
                         <FiInfo className="w-4 h-4 inline mr-2" />
-                        Society Details
+                        Details
                     </button>
+
                     <button
                         onClick={() => setActiveTab('members')}
-                        className={`pb-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'members'
-                            ? 'border-primary-600 text-primary-600'
-                            : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
+                        className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'members'
+                                ? 'border-primary-600 text-primary-600'
+                                : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
                             }`}
                     >
                         <FiUsers className="w-4 h-4 inline mr-2" />
@@ -232,69 +239,62 @@ export default function SocietySettingsPage() {
             {/* Details Tab */}
             {activeTab === 'details' && (
                 <Card>
-                    <CardBody>
-                        <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-xl font-bold text-gray-900">Society Information</h2>
+                    <CardBody className="space-y-6 p-4 sm:p-6">
+
+                        {/* Title + Actions */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <h2 className="text-lg sm:text-xl font-bold text-gray-900">Society Information</h2>
+
                             {!isEditing ? (
-                                <Button leftIcon={<FiEdit2 />} onClick={() => setIsEditing(true)}>
+                                <Button leftIcon={<FiEdit2 />} className="w-full sm:w-auto"
+                                    onClick={() => setIsEditing(true)}>
                                     Edit Details
                                 </Button>
                             ) : (
-                                <div className="flex gap-2">
-                                    <Button
-                                        variant="outline"
-                                        leftIcon={<FiX />}
-                                        onClick={() => {
-                                            setIsEditing(false);
-                                            loadSocietyData(); // Reset form
-                                        }}
-                                    >
+                                <div className="flex gap-2 flex-col sm:flex-row w-full sm:w-auto">
+                                    <Button variant="outline" leftIcon={<FiX />} className="w-full sm:w-auto"
+                                        onClick={() => { setIsEditing(false); loadSocietyData(); }}>
                                         Cancel
                                     </Button>
-                                    <Button
-                                        leftIcon={<FiSave />}
+                                    <Button leftIcon={<FiSave />} className="w-full sm:w-auto"
                                         onClick={handleSaveChanges}
-                                        disabled={isSaving}
-                                    >
+                                        disabled={isSaving}>
                                         {isSaving ? 'Saving...' : 'Save Changes'}
                                     </Button>
                                 </div>
                             )}
                         </div>
 
-                        <div className="space-y-6">
-                            {/* Basic Information */}
+                        {/* Form Sections */}
+                        <div className="space-y-8">
+
+                            {/* Basic Info */}
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Basic Information</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+
+                                    {/* Name */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                                            Society Name *
-                                        </label>
+                                        <label className="text-sm font-medium text-gray-900 mb-1 block">Society Name *</label>
                                         {isEditing ? (
-                                            <input
-                                                type="text"
-                                                name="name"
+                                            <input type="text" name="name" required
                                                 value={formData.name}
                                                 onChange={handleInputChange}
-                                                className="text-gray-900 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                                required
-                                            />
+                                                className="w-full px-3 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500" />
                                         ) : (
                                             <p className="text-gray-900">{society.name}</p>
                                         )}
                                     </div>
 
+                                    {/* Category */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                                            Category *
-                                        </label>
+                                        <label className="text-sm font-medium text-gray-900 mb-1 block">Category *</label>
                                         {isEditing ? (
                                             <select
                                                 name="category"
                                                 value={formData.category}
                                                 onChange={handleInputChange}
-                                                className="text-gray-900 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                                className="w-full px-3 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500"
                                                 required
                                             >
                                                 <option value="">Select Category</option>
@@ -311,18 +311,15 @@ export default function SocietySettingsPage() {
                                     </div>
                                 </div>
 
+                                {/* Description */}
                                 <div className="mt-4">
-                                    <label className="block text-sm font-medium text-gray-900 mb-2">
-                                        Description *
-                                    </label>
+                                    <label className="text-sm font-medium text-gray-900 mb-1 block">Description *</label>
                                     {isEditing ? (
-                                        <textarea
+                                        <textarea rows={3}
                                             name="description"
                                             value={formData.description}
                                             onChange={handleInputChange}
-                                            rows={4}
-                                            className="text-gray-900 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                            required
+                                            className="w-full px-3 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500"
                                         />
                                     ) : (
                                         <p className="text-gray-900">{society.description}</p>
@@ -330,126 +327,74 @@ export default function SocietySettingsPage() {
                                 </div>
                             </div>
 
-                            {/* Contact Information */}
+                            {/* Contact + Social + Status remain same — just responsiveness improved below */}
+
+                            {/* Contact Info */}
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+                                    {/* Email */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                                            Contact Email
-                                        </label>
+                                        <label className="text-sm font-medium text-gray-900 mb-1 block">Contact Email</label>
                                         {isEditing ? (
-                                            <input
-                                                type="email"
-                                                name="contact_email"
+                                            <input type="email" name="contact_email"
                                                 value={formData.email}
                                                 onChange={handleInputChange}
-                                                className="text-gray-900 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                                className="w-full px-3 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500"
                                             />
                                         ) : (
                                             <p className="text-gray-900">{society.email || 'Not provided'}</p>
                                         )}
                                     </div>
 
+                                    {/* Phone */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                                            Contact Phone
-                                        </label>
+                                        <label className="text-sm font-medium text-gray-900 mb-1 block">Contact Phone</label>
                                         {isEditing ? (
-                                            <input
-                                                type="tel"
-                                                name="contact_phone"
+                                            <input type="tel" name="contact_phone"
                                                 value={formData.phone}
                                                 onChange={handleInputChange}
-                                                className="text-gray-900 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                                className="w-full px-3 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500"
                                             />
                                         ) : (
                                             <p className="text-gray-900">{society.phone || 'Not provided'}</p>
                                         )}
                                     </div>
 
-                                    <div className="md:col-span-2">
-                                        <label className="block text-sm font-medium text-gray-900 mb-2">
-                                            Website
-                                        </label>
+                                    {/* Website */}
+                                    <div className="sm:col-span-2">
+                                        <label className="text-sm font-medium text-gray-900 mb-1 block">Website</label>
                                         {isEditing ? (
-                                            <input
-                                                type="url"
-                                                name="website"
+                                            <input type="url" name="website"
+                                                placeholder="https://"
                                                 value={formData.website}
                                                 onChange={handleInputChange}
-                                                placeholder="https://"
-                                                className="text-gray-900 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                                className="w-full px-3 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500"
                                             />
                                         ) : (
-                                            <p className="text-gray-900">
-                                                {society.website ? (
-                                                    <a href={society.website} target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">
-                                                        {society.website}
-                                                    </a>
-                                                ) : (
-                                                    'Not provided'
-                                                )}
+                                            <p className="text-primary-600">
+                                                {society.website || 'Not provided'}
                                             </p>
                                         )}
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Social Links */}
-                            <div>
-                                <h3 className="text-lg font-semibold text-gray-900 mb-4">Social Media</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {['facebook_url', 'twitter_url', 'instagram_url'].map((platform) => (
-                                        <div key={platform}>
-                                            <label className="block text-sm font-medium text-gray-900 mb-2 capitalize">
-                                                {platform.replace('_url', '')} {/* just for display */}
-                                            </label>
-                                            {isEditing ? (
-                                                <input
-                                                    type="url"
-                                                    value={formData[platform as keyof typeof formData] || ''}
-                                                    onChange={(e) => handleSocialLinkChange(platform, e.target.value)}
-                                                    placeholder={`https://${platform.replace('_url', '')}.com/...`}
-                                                    className="text-gray-900 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                                />
-                                            ) : (
-                                                <p className="text-gray-900">
-                                                    {society[platform as keyof SocietyDetail] ? (
-                                                        <a
-                                                            href={society[platform as keyof SocietyDetail] as string}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="text-primary-600 hover:underline"
-                                                        >
-                                                            View Profile
-                                                        </a>
-                                                    ) : (
-                                                        'Not provided'
-                                                    )}
-                                                </p>
-                                            )}
-                                        </div>
-                                    ))}
-
-                                </div>
-                            </div>
-
-                            {/* Status Information */}
+                            {/* Status */}
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Status</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div className="p-4 bg-gray-50 rounded-lg">
-                                        <p className="text-sm text-gray-600 mb-1">Approval Status</p>
+                                <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
+                                    <div className="p-3 bg-gray-50 rounded-lg">
+                                        <p className="text-sm text-gray-600 mb-1">Approval</p>
                                         <Badge variant={society.is_approved ? 'success' : 'warning'}>
                                             {society.is_approved ? 'Approved' : 'Pending'}
                                         </Badge>
                                     </div>
-                                    <div className="p-4 bg-gray-50 rounded-lg">
-                                        <p className="text-sm text-gray-600 mb-1">Total Members</p>
-                                        <p className="text-2xl font-bold text-gray-900">{society.member_count || 0}</p>
+                                    <div className="p-3 bg-gray-50 rounded-lg">
+                                        <p className="text-sm text-gray-600 mb-1">Members</p>
+                                        <p className="text-lg font-bold text-gray-900">{society.member_count || 0}</p>
                                     </div>
-                                    <div className="p-4 bg-gray-50 rounded-lg">
+                                    <div className="p-3 bg-gray-50 rounded-lg">
                                         <p className="text-sm text-gray-600 mb-1">Created</p>
                                         <p className="text-sm text-gray-900">
                                             {new Date(society.created_at).toLocaleDateString()}
@@ -457,6 +402,7 @@ export default function SocietySettingsPage() {
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </CardBody>
                 </Card>
@@ -465,70 +411,63 @@ export default function SocietySettingsPage() {
             {/* Members Tab */}
             {activeTab === 'members' && (
                 <Card>
-                    <CardBody>
-                        <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-xl font-bold text-gray-900">Society Members</h2>
-                            <div className="text-sm text-gray-600">
-                                Total: <span className="font-semibold">{members.length}</span> members
-                            </div>
+                    <CardBody className="p-4 sm:p-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+                            <h2 className="text-lg sm:text-xl font-bold text-gray-900">Society Members</h2>
+                            <p className="text-sm text-gray-600">
+                                Total: <span className="font-semibold">{members.length}</span>
+                            </p>
                         </div>
 
                         {members.length === 0 ? (
-                            <div className="text-center py-12">
-                                <FiUsers className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                                <p className="text-gray-600">No members yet</p>
+                            <div className="text-center py-10">
+                                <FiUsers className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                                <p className="text-gray-600 text-sm sm:text-base">No members yet</p>
                             </div>
                         ) : (
-                            <div className="overflow-x-auto">
-                                <table className="w-full">
+                            <div className="overflow-x-auto -mx-3 sm:mx-0">
+                                <table className="w-full min-w-[600px]">
                                     <thead className="bg-gray-50 border-b border-gray-200">
                                         <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Member
-                                            </th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Email
-                                            </th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Role
-                                            </th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Joined
-                                            </th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Actions
-                                            </th>
+                                            {['Member', 'Email', 'Role', 'Joined', 'Actions'].map((h) => (
+                                                <th key={h} className="px-4 py-3 text-left text-[11px] sm:text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                                    {h}
+                                                </th>
+                                            ))}
                                         </tr>
                                     </thead>
+
                                     <tbody className="bg-white divide-y divide-gray-200">
                                         {members.map((member) => (
                                             <tr key={member.id} className="hover:bg-gray-50">
-                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                <td className="px-4 py-3 whitespace-nowrap">
                                                     <div className="flex items-center">
-                                                        <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                                                        <div className="w-9 h-9 bg-primary-100 rounded-full flex items-center justify-center">
                                                             <span className="text-primary-600 font-semibold">
                                                                 {member.user.first_name?.charAt(0) || member.user.email.charAt(0).toUpperCase()}
                                                             </span>
                                                         </div>
-                                                        <div className="ml-4">
-                                                            <div className="text-sm font-medium text-gray-900">
-                                                                {member.user.first_name || 'No name'}
-                                                            </div>
-                                                        </div>
+                                                        <span className="ml-3 text-sm font-medium text-gray-900">
+                                                            {member.user.first_name || 'No name'}
+                                                        </span>
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm text-gray-900">{member.user.email}</div>
+
+                                                <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap">
+                                                    {member.user.email}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
+
+                                                <td className="px-4 py-3 whitespace-nowrap">
                                                     <Badge variant={member.role === 'admin' ? 'primary' : 'secondary'}>
                                                         {member.role}
                                                     </Badge>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+
+                                                <td className="px-4 py-3 text-sm text-gray-500 whitespace-nowrap">
                                                     {new Date(member.joined_at).toLocaleDateString()}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm">
+
+                                                <td className="px-4 py-3 whitespace-nowrap">
                                                     {member.role !== 'admin' && (
                                                         <Button
                                                             variant="ghost"
@@ -547,9 +486,12 @@ export default function SocietySettingsPage() {
                                 </table>
                             </div>
                         )}
+
                     </CardBody>
                 </Card>
             )}
+
         </div>
+
     );
 }

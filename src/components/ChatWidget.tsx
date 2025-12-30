@@ -158,7 +158,7 @@ export default function ChatWidget() {
         }
     };
 
-    return (
+return (
         <>
             {/* Floating Toggle Button */}
             <motion.button
@@ -167,7 +167,14 @@ export default function ChatWidget() {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary-600 shadow-lg shadow-primary-600/30 transition-colors hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-600/20"
+                className="
+                    fixed bottom-4 right-4 
+                    sm:bottom-6 sm:right-6 
+                    z-50 flex h-14 w-14 items-center justify-center 
+                    rounded-full bg-primary-600 shadow-lg shadow-primary-600/30 
+                    transition-colors hover:bg-primary-700 
+                    focus:outline-none focus:ring-4 focus:ring-primary-600/20
+                "
             >
                 <AnimatePresence mode="wait">
                     {isOpen ? (
@@ -200,10 +207,18 @@ export default function ChatWidget() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed bottom-24 right-6 z-50 flex h-[600px] max-h-[80vh] w-[380px] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 sm:w-[400px]"
+                        className="
+                            fixed bottom-20 right-4 
+                            z-50 flex flex-col overflow-hidden 
+                            h-[85vh] w-[95vw]
+                            sm:bottom-24 sm:right-6 sm:h-[600px] sm:w-[380px]
+                            max-h-[90vh]
+                            rounded-xl sm:rounded-2xl
+                            bg-white shadow-2xl ring-1 ring-black/5
+                        "
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between bg-primary-600 px-6 py-4 text-white">
+                        <div className="flex items-center justify-between bg-primary-600 px-4 sm:px-6 py-4 text-white">
                             <div>
                                 <h3 className="text-lg font-semibold">Support Assistant</h3>
                                 <p className="text-xs text-primary-100">Usually replies instantly</p>
@@ -216,25 +231,24 @@ export default function ChatWidget() {
                             </button>
                         </div>
 
-                        {/* Messages Area */}
-                        <div className="flex-1 overflow-y-auto bg-gray-50 p-4">
+                        {/* Messages */}
+                        <div className="flex-1 overflow-y-auto bg-gray-50 p-3 sm:p-4">
                             <div className="space-y-4">
                                 {messages.map((msg, index) => (
                                     <motion.div
                                         key={msg.id}
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"
-                                            }`}
+                                        className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
                                     >
                                         <div
-                                            className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm ${msg.sender === "user"
-                                                ? "bg-primary-600 text-white rounded-br-none"
-                                                : "bg-white text-gray-800 rounded-bl-none border border-gray-100"
-                                                }`}
+                                            className={`max-w-[90%] sm:max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm ${
+                                                msg.sender === "user"
+                                                    ? "bg-primary-600 text-white rounded-br-none"
+                                                    : "bg-white text-gray-800 rounded-bl-none border border-gray-100"
+                                            }`}
                                         >
                                             {msg.sender === "bot" ? (
-                                                // Only animate the latest bot message
                                                 index === messages.length - 1 && !isTyping ? (
                                                     <Typewriter text={msg.text} onUpdate={scrollToBottom} />
                                                 ) : (
@@ -246,6 +260,7 @@ export default function ChatWidget() {
                                         </div>
                                     </motion.div>
                                 ))}
+
                                 {isTyping && (
                                     <motion.div
                                         initial={{ opacity: 0, y: 10 }}
@@ -263,25 +278,25 @@ export default function ChatWidget() {
                             </div>
                         </div>
 
-                        {/* Actions/Input Area */}
+                        {/* Actions & FAQ */}
                         <div className="bg-white px-4 py-4 border-t border-gray-100">
                             <p className="mb-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Suggested Questions
                             </p>
-                            <div className="flex flex-wrap gap-2 mb-4">
+                            <div className="flex flex-wrap gap-2 mb-4 max-h-[100px] overflow-y-auto">
                                 {FAQS.map((faq) => (
                                     <button
                                         key={faq.id}
                                         onClick={() => handleQuestionClick(faq)}
                                         disabled={isTyping}
-                                        className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-700 disabled:opacity-50 disabled:cursor-not-allowed text-left border border-gray-200"
+                                        className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-700 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-200"
                                     >
                                         {faq.question}
                                     </button>
                                 ))}
                             </div>
 
-                            {/* Support Email Footer */}
+                            {/* Support Button */}
                             <div className="pt-3 border-t border-gray-100">
                                 <button
                                     onClick={() => setIsContactOpen(true)}
@@ -297,11 +312,7 @@ export default function ChatWidget() {
             </AnimatePresence>
 
             {/* Contact Modal */}
-            <Modal
-                isOpen={isContactOpen}
-                onClose={() => setIsContactOpen(false)}
-                title="Contact Support"
-            >
+            <Modal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} title="Contact Support">
                 <form onSubmit={handleContactSubmit} className="space-y-4">
                     <Input
                         label="Name"
@@ -331,17 +342,10 @@ export default function ChatWidget() {
                         />
                     </div>
                     <div className="flex justify-end gap-3 mt-6">
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => setIsContactOpen(false)}
-                        >
+                        <Button type="button" variant="outline" onClick={() => setIsContactOpen(false)}>
                             Cancel
                         </Button>
-                        <Button
-                            type="submit"
-                            isLoading={isSubmitting}
-                        >
+                        <Button type="submit" isLoading={isSubmitting}>
                             Send Message
                         </Button>
                     </div>
