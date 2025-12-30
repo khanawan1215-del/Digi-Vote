@@ -9,6 +9,10 @@ import { FiMail, FiPhone, FiMessageCircle, FiSend, FiCheckCircle } from 'react-i
 import { motion } from 'framer-motion';
 import apiClient from '@/lib/api/client';
 import { toast } from 'react-hot-toast';
+import { AxiosError } from 'axios';
+
+
+
 
 export default function SupportForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -28,7 +32,8 @@ export default function SupportForm() {
       setIsSubmitted(true);
       setContactForm({ name: '', email: '', message: '' });
     } catch (err: unknown) {
-      const msg = (err as any).response?.data?.message || 'Failed to send message. Please try again.';
+      const axiosError = err as AxiosError<{ message: string }>;
+      const msg = axiosError.response?.data?.message || 'Failed to send message. Please try again.';
       toast.error(msg);
     } finally {
       setIsLoading(false);

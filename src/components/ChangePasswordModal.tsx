@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/Input';
 import { FiLock, FiX, FiEye, FiEyeOff } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import { authService } from '@/lib/api/auth.service';
+import { AxiosError } from 'axios';
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -69,36 +70,24 @@ export function ChangePasswordModal({ isOpen, onClose }: ChangePasswordModalProp
       reset();
       onClose();
     } catch (err: unknown) {
-      const error = err as any;
-      
-      // Handle field-specific errors from backend
+      const error = err as AxiosError<{ message?: string; errors?: Record<string, string[]> }>;
+
       if (error.response?.data?.errors) {
         const backendErrors = error.response.data.errors;
-        
-        // Set errors for specific fields
+
         if (backendErrors.old_password) {
-          setError('old_password', {
-            type: 'manual',
-            message: backendErrors.old_password[0],
-          });
+          setError('old_password', { type: 'manual', message: backendErrors.old_password[0] });
           toast.error(backendErrors.old_password[0]);
         }
         if (backendErrors.new_password) {
-          setError('new_password', {
-            type: 'manual',
-            message: backendErrors.new_password[0],
-          });
+          setError('new_password', { type: 'manual', message: backendErrors.new_password[0] });
           toast.error(backendErrors.new_password[0]);
         }
         if (backendErrors.new_password_confirm) {
-          setError('new_password_confirm', {
-            type: 'manual',
-            message: backendErrors.new_password_confirm[0],
-          });
+          setError('new_password_confirm', { type: 'manual', message: backendErrors.new_password_confirm[0] });
           toast.error(backendErrors.new_password_confirm[0]);
         }
       } else {
-        // Generic error message
         const msg = error.response?.data?.message || 'Failed to change password';
         toast.error(msg);
       }
@@ -207,9 +196,9 @@ export function ChangePasswordModal({ isOpen, onClose }: ChangePasswordModalProp
             >
               Cancel
             </Button>
-            <Button 
-              onClick={handleSubmit(onSubmit)} 
-              isLoading={isLoading} 
+            <Button
+              onClick={handleSubmit(onSubmit)}
+              isLoading={isLoading}
               className="flex-1"
             >
               Change Password
